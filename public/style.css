@@ -1,59 +1,109 @@
-* {
-  box-sizing: border-box;
+body{
+  text-align: center;
+  background-color: #f2fdfc;
+  color: #1fa89b;
 }
 
-body {
-  font-family:sans-serif;
-  margin: 25px;
-  color: #222;
-  background-color: #f5f5f5;
+input{
+  text-align: center;
+  color: #1fa89b;
+  background-color: rgba(31, 168, 155, 0.3);
+  border-style: none;
+  border-width: thin;
+  border-color: rgb(31, 168, 155);
+  border-radius: 3px;
 }
 
-h1 {
-  font-weight: bold;
-  
-}
-
-p {
-  max-width: 900px;
-}
-
-form {
-  margin-bottom: 25px;
-  padding: 15px;
-  background-color: #87D37C;
-  display: inline-block;
+button{
   width: 100%;
-  max-width: 340px;
+  height: 2rem;
+  color: whitesmoke;
+  background-color: #1fa89b;
+  transition-property: background-color transform;
+  transition-duration: 250ms;
+  border-style: none;
+  border-radius: 3px;
+}
+
+button:hover{
+  background-color: #1a857a;
+  transform: translateY(2px);
+}
+
+#form-divs{
+  display: flex;
+  justify-content: center;
+}
+
+#form-divs form{
+  flex-basis: 400px;
+  margin: 5px;
+  padding: 10px;
+  border-style: solid;
+  border-width: thin;
   border-radius: 5px;
 }
 
-input {
-  display: block;
-  margin-bottom: 10px;
-  padding: 5px;
+#form-divs form input{
   width: 100%;
-  border: 1px solid lightgrey;
-  border-radius: 3px;
-  font-size: 16px;
 }
 
-input[type=submit] {
-  font-size: 16px;
-  border-radius: 3px;
-  background-color: #E4F1FE;
-  border: 1px solid grey;
-  box-shadow: 2px 2px #999;
-  cursor: pointer;
+#form-divs form button{
+  margin-top: 10px;
 }
 
-input[type=submit]:hover {
-  background-color: #FFFEC4;
+#user-div{
+  display: flex;
+  white-space: nowrap;
 }
 
-code {
-  font-family: monospace;
-  font-size: 1.2em;
-  background-color: #FFFEC4;
-  padding: 2px;
+#user-div input{
+  margin-left: 5px;
+}
+
+#description-div label{
+  display: flex;
+}
+
+#userId-div{
+  display: flex;
+  margin-bottom: 5px;
+}
+
+#userId-div input{
+  margin-left: 5px;
+}
+
+#description{
+  width: 100%;
+}
+
+#duration-div{
+  display: flex;
+  height: 31.8px;
+  margin-top: 15px;
+}
+
+#duration-div input{
+  margin-left: 5px;
+  margin-right: 2px;
+}
+
+#date-div{
+  display: flex;
+  margin-top: 15px;
+}
+
+#date-div input{
+  text-align: left;
+  margin-left: 5px;
+}
+
+@media (max-width: 575.98px) {
+  #form-divs{
+    flex-direction: column;
+  }
+  #form-divs form{
+    flex-basis: unset;
+  }
 }
