@@ -50,17 +50,15 @@ db.once('open', function () {
   app.post('/api/exercise/add',function(req,res){
     Users.findById(req.body.userId,function(err,data){
       if(err){return console.log(err)};
-      let username = data.username
       let count = Number(data.count) + 1;
       let log = data.log;
       log.push({description: req.body.description , duration: Number(req.body.duration) , date: req.body.date});
       Users.findByIdAndUpdate(req.body.userId,{
-        username: username,
         count: count,
         log: log
       },function(err,data){
         if(err){return console.log(err)};
-        res.json({_id: req.body.userId , username: username , date: req.body.date , duration: req.body.duration , description: req.body.description});
+        res.json({_id: req.body.userId , username: data.username , date: req.body.date , duration: req.body.duration , description: req.body.description});
       });
     });
   });
