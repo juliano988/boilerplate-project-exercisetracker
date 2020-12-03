@@ -67,16 +67,16 @@ db.once('open', function () {
   });
 
   app.get('/api/exercise/log',function(req,res){
-    console.log(req.query.from , req.query.to , req.query.limit)
     Users.findById(req.query.userId || 0,function(err,data){
-      console.log(req.query.userId);
       if(err){
         res.json("User not found or incorrect ID value");
       }else{
         const fromDateUnix = Date.parse(new Date(req.query.from)) || 1;
         const toDateUnix = Date.parse(new Date(req.query.to)) || Date.parse(new Date());
         let exercisesSelected = data.exercises.filter(function(a){return Date.parse(new Date(a.date)) >= fromDateUnix && Date.parse(new Date(a.date)) <= toDateUnix}).slice(0,req.query.limit);
-        console.log(exercisesSelected)
+        for(const i in exercisesSelected){
+          exercisesSelected[Number(i)] = {description: exercisesSelected[Number(i)].description, duration: exercisesSelected[Number(i)].duration, date: exercisesSelected[Number(i)].date};
+        };
         res.json({_id: data._id, username: data.username, count: data.exercises.length , log: exercisesSelected});
       }
     });
