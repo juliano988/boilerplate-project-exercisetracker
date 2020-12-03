@@ -73,7 +73,8 @@ db.once('open', function () {
       }else{
         const fromDateUnix = Date.parse(new Date(req.query.from)) || 1;
         const toDateUnix = Date.parse(new Date(req.query.to)) || Date.parse(new Date());
-        let exercisesSelected = data.exercises.filter(function(a){return Date.parse(new Date(a.date)) >= fromDateUnix && Date.parse(new Date(a.date)) <= toDateUnix}).slice(0,req.query.limit);
+        let exercisesSelected = data.exercises.filter(function(a){return (Date.parse(new Date(a.date)) >= fromDateUnix && Date.parse(new Date(a.date)) <= toDateUnix) || (!a.hasOwnProperty('date'))}).slice(0,req.query.limit || 999999);
+        console.log(exercisesSelected)
         for(const i in exercisesSelected){
           exercisesSelected[Number(i)] = {description: exercisesSelected[Number(i)].description, duration: exercisesSelected[Number(i)].duration, date: exercisesSelected[Number(i)].date};
         };
