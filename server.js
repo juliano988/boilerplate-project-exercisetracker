@@ -17,13 +17,11 @@ db.once('open', function () {
   // Creating schema
   const usersSchema = new mongoose.Schema({
     username: String,
-    count: { type: Number, default: 0 },
-    log: [{description: String , duration: Number , date: String}]
+    exercises: [{description: String , duration: Number , date: String}]
   });
   const Users = mongoose.model('Users', usersSchema);
 
   app.post('/api/exercise/new-user', function (req, res) {
-    console.log(req.body)
     Users.find({username: req.body.username}).exec(function(err,data){
       if(err){return console.log(err)};
       if(data.length){
@@ -50,16 +48,23 @@ db.once('open', function () {
   app.post('/api/exercise/add',function(req,res){
     Users.findById(req.body.userId,function(err,data){
       if(err){return console.log(err)};
-      let count = Number(data.count) + 1;
-      let log = data.log;
-      log.push({description: req.body.description , duration: Number(req.body.duration) , date: req.body.date});
+      let exercises = data.exercises;
+      exercises.push({description: req.body.description , duration: Number(req.body.duration) , date: req.body.date});
       Users.findByIdAndUpdate(req.body.userId,{
-        count: count,
-        log: log
+        exercises: exercises
       },function(err,data){
         if(err){return console.log(err)};
-        res.json({_id: req.body.userId , username: data.username , date: req.body.date , duration: req.body.duration , description: req.body.description});
+        // console.log(data)
+        // res.json({_id: data._id , username: data.username , date: req.body.date , duration: req.body.duration , description: req.body.description});
       });
+      Users.findById(req.body.userId,function(err,data){
+        if(err){console.log(err)};
+        console.log(data);
+        const description = data.exercises[data.exercises.length-1].description;
+        const duration = data.exercises[data.exercises.length-1].duration;
+        const date = data.exercises[data.exercises.length-1].date;
+        res.json({_id: data._id, username: data.username, description: description, duration: duration, date: date});
+      })
     });
   });
 
