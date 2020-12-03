@@ -30,6 +30,34 @@ button:hover{
   transform: translateY(2px);
 }
 
+#search-div{
+  max-width: 810px;
+  margin: 5px auto;
+  padding: 10px;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 5px;
+}
+
+#search-form{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+#search-id{
+  width: 13rem;
+}
+
+#search-from-date , #search-to-date{
+  width: 9.5rem;
+}
+
+#search-limit{
+  width: 3rem;
+}
+
 #form-divs{
   display: flex;
   justify-content: center;
@@ -100,6 +128,15 @@ button:hover{
 }
 
 @media (max-width: 575.98px) {
+  #search-id-div , #search-from-date-div , #search-to-date-div , #search-limit-div{
+    display: flex;
+    width: 100%;
+  }
+  #search-id , #search-from-date , #search-to-date , #search-limit{
+    width: 100%;
+    margin-left: 5px;
+    margin-bottom: 10px;
+  }
   #form-divs{
     flex-direction: column;
   }

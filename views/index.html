@@ -14,6 +14,28 @@
 <body>
    <div class="container">
       <h1>Exercise tracker</h1>
+      <div id="search-div">
+         <h5>Search</h5>
+         <form id="search-form" action="/api/exercise/log" method="GET">
+         <div id="search-id-div">
+            <label for="search-id">ID:</label>
+            <input id="search-id" type="text" name="userId" required>
+         </div>
+         <div id="search-from-date-div">
+            <label for="search-from-date">From:</label>
+            <input id="search-from-date" type="date" name="from">
+         </div>
+         <div id="search-to-date-div">
+            <label for="search-to-date">To:</label>
+            <input id="search-to-date" type="date" name="to">
+         </div>
+         <div id="search-limit-div">
+            <label for="search-limit">Limit:</label>
+            <input id="search-limit" type="number" min="1" value="1" name="limit">
+         </div>
+         <button id="search-btn" type="submit">Search</button>
+      </form>
+      </div>
       <div id="form-divs">
          <form id="create" action="/api/exercise/new-user" method="POST">
             <h5>Create a new user</h5>

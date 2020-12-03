@@ -54,8 +54,6 @@ db.once('open', function () {
         exercises: exercises
       },function(err,data){
         if(err){return console.log(err)};
-        // console.log(data)
-        // res.json({_id: data._id , username: data.username , date: req.body.date , duration: req.body.duration , description: req.body.description});
       });
       Users.findById(req.body.userId,function(err,data){
         if(err){console.log(err)};
@@ -64,9 +62,25 @@ db.once('open', function () {
         const duration = data.exercises[data.exercises.length-1].duration;
         const date = data.exercises[data.exercises.length-1].date;
         res.json({_id: data._id, username: data.username, description: description, duration: duration, date: date});
-      })
+      });
     });
   });
+
+  app.get('/api/exercise/log',function(req,res){
+    console.log(req.query.from , req.query.to , req.query.limit)
+    Users.findById(req.query.userId || 0,function(err,data){
+      console.log(req.query.userId);
+      if(err){
+        res.json("User not found or incorrect ID value");
+      }else{
+        const fromDateUnix = Date.parse(new Date(req.query.from)) || 1;
+        const toDateUnix = Date.parse(new Date(req.query.to)) || Date.parse(new Date());
+        let exercisesSelected = data.exercises.filter(function(a){return Date.parse(new Date(a.date)) >= fromDateUnix && Date.parse(new Date(a.date)) <= toDateUnix}).slice(0,req.query.limit);
+        console.log(exercisesSelected)
+        res.json({_id: data._id, username: data.username, count: data.exercises.length , log: exercisesSelected});
+      }
+    });
+  })
 
   app.use(express.static('public'));
   app.get('/', (req, res) => {
