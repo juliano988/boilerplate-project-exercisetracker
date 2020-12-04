@@ -49,7 +49,8 @@ db.once('open', function () {
     Users.findById(req.body.userId,function(err,data){
       if(err){return console.log(err)};
       let exercises = data.exercises;
-      exercises.push({description: req.body.description , duration: Number(req.body.duration) , date: req.body.date});
+      let todayDate = new Date().getFullYear()+'-'+(Number(new Date().getMonth())+1).toString(10).padStart(2,'0')+'-'+new Date().getDate().toString(10).padStart(2, '0');
+      exercises.push({description: req.body.description, duration: Number(req.body.duration) , date: req.body.date || todayDate});
       Users.findByIdAndUpdate(req.body.userId,{
         exercises: exercises
       },function(err,data){
@@ -57,11 +58,10 @@ db.once('open', function () {
       });
       Users.findById(req.body.userId,function(err,data){
         if(err){console.log(err)};
-        console.log(data);
         const description = data.exercises[data.exercises.length-1].description;
         const duration = data.exercises[data.exercises.length-1].duration;
         const date = data.exercises[data.exercises.length-1].date;
-        res.json({_id: data._id, username: data.username, description: description, duration: duration, date: date});
+        res.json({_id: data._id, username: data.username, date: new Date(date).toString(10).substring(0,15), duration: duration, description: description});
       });
     });
   });
@@ -74,7 +74,6 @@ db.once('open', function () {
         const fromDateUnix = Date.parse(new Date(req.query.from)) || 1;
         const toDateUnix = Date.parse(new Date(req.query.to)) || Date.parse(new Date());
         let exercisesSelected = data.exercises.filter(function(a){return (Date.parse(new Date(a.date)) >= fromDateUnix && Date.parse(new Date(a.date)) <= toDateUnix) || (!a.hasOwnProperty('date'))}).slice(0,req.query.limit || 999999);
-        console.log(exercisesSelected)
         for(const i in exercisesSelected){
           exercisesSelected[Number(i)] = {description: exercisesSelected[Number(i)].description, duration: exercisesSelected[Number(i)].duration, date: exercisesSelected[Number(i)].date};
         };
